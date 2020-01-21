@@ -1,5 +1,10 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props, Action } from '@ngrx/store';
 import { User } from '../model/user.model';
+
+export enum EAuthActions {
+    login = '[Login Page] User Login',
+    logout = '[Top Menu] User Logout',
+}
 
 export const login = createAction(
     '[Login Page] User Login',
