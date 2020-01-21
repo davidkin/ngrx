@@ -6,11 +6,20 @@ export enum EAuthActions {
     logout = '[Top Menu] User Logout',
 }
 
-export const login = createAction(
-    '[Login Page] User Login',
-    props<{ payload: User }>()
-);
+export class Login implements Action {
+    public readonly type = EAuthActions.login;
+    constructor(public payload: User) {}
+}
 
-export const logout = createAction(
-    '[Top Menu] User Logout',
-);
+export class Logout implements Action {
+    public readonly type = EAuthActions.logout;
+}
+
+// export const login = createAction(
+//     '[Login Page] User Login',
+//     props<{ payload: User }>()
+// );
+
+// export const logout = createAction(
+//     '[Top Menu] User Logout',
+// );

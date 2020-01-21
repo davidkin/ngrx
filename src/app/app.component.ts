@@ -6,6 +6,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 import { AppState } from './reducers';
 import { isLoggedIn, isLoggedOut } from '../app/auth/auth-store/auth.selectors';
 import { AuthActions } from './auth/auth-store/auth-types.action';
+import { Logout } from './auth/auth-store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
     }
 
     logout() {
-      this.store.dispatch(AuthActions.logout());
+      this.store.dispatch(new Logout());
     }
 
 }

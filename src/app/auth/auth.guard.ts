@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { isLoggedIn } from './auth-store/auth.selectors';
 import { tap } from 'rxjs/operators';
 import { AuthActions } from './auth-store/auth-types.action';
+import { Login } from './auth-store/auth.actions';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,7 +19,8 @@ export class AuthGuard implements CanActivate {
         const userProfile = localStorage.getItem('user');
 
         if (userProfile) {
-            this.store.dispatch(AuthActions.login({ payload: JSON.parse(userProfile) }));
+            const user = JSON.parse(userProfile);
+            this.store.dispatch(new Login(user));
         }
 
         return this.store.pipe(

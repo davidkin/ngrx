@@ -1,3 +1,3 @@
-import * as AuthActions from './auth.actions';
+import { Logout, Login } from './auth.actions';
 
-export { AuthActions };
+export type AuthActions = Login | Logout;
