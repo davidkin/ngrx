@@ -25,7 +25,7 @@ export class CoursesEffects {
     saveCourse$ = this.actions$.pipe(
         ofType<CourseUpdated>(ECoursesAction.courseUpdated),
         concatMap(action =>
-            this.coursesService.saveCourse(action.payload.id, action.payload)
+            this.coursesService.saveCourse(action.payload.id, action.payload.changes)
         ), // work if only previouse action was finished
     );
 }

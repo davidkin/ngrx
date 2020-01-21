@@ -67,12 +67,12 @@ export class EditCourseDialogComponent {
       ...this.form.value
     };
 
-    // const newCourse: Update<Course> = {
-    //   id: course.id,
-    //   changes: course
-    // };
+    const newCourse: Update<Course> = {
+      id: course.id,
+      changes: course
+    };
 
-    this.store.dispatch(new CourseUpdated(course) );
+    this.store.dispatch(new CourseUpdated(newCourse) );
 
     this.dialogRef.close();
   }

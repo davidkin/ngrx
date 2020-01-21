@@ -4,15 +4,17 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { CoursesActions } from '../courses-type.action';
 import { ECoursesAction } from '../course.action';
 
-export interface CoursesState  {
+export interface CoursesState extends EntityState<Course>  {
     areCoursesLoaded: boolean;
     courses: Course[];
 }
 
-export const initialCourseState = {
+export const adapter = createEntityAdapter<Course>();
+
+export const initialCourseState = adapter.getInitialState({
     areCoursesLoaded: false,
     courses: undefined
-};
+});
 
 export const coursesReducer = (
     state = initialCourseState,
@@ -21,21 +23,19 @@ export const coursesReducer = (
 
     switch (action.type) {
         case ECoursesAction.allCoursesLoaded: {
-            return {
-                ...state,
-                areCoursesLoaded: true,
-                courses: action.payload
-            };
+            return adapter.addAll(
+                action.payload,
+                { ...state, areCoursesLoaded: true }
+            );
         }
 
         case ECoursesAction.courseUpdated: {
-            return {
-                ...state,
-                courses: [
-                    ...state.courses,
-                    action.payload
-                ]
-            };
+            return adapter.updateOne(action.payload, state);
+            // return {
+            //     ...state,
+
+                 // courses: state.courses.map((value, i) => value.id === action.payload.id ? action.payload : value)
+            // };
         }
 
         default:
@@ -47,7 +47,7 @@ export const coursesReducer = (
 // export interface CoursesState extends EntityState<Course> {
 //     areCoursesLoaded: boolean;
 // }
-// 
+//
 // export const coursesReducer = (
 //     state = initialCourseState,
 //     action: CoursesActions
@@ -76,6 +76,6 @@ export const coursesReducer = (
 //     )
 // );
 
-// const selectors = adapter.getSelectors();
+const selectors = adapter.getSelectors();
 
-// export const { selectAll } = selectors;
+export const { selectAll } = selectors;

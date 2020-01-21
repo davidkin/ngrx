@@ -19,7 +19,7 @@ export class AllCoursesLoaded implements Action {
 
 export class CourseUpdated implements Action {
     public readonly type = ECoursesAction.courseUpdated;
-    constructor(public payload: Course) {}
+    constructor(public payload: Update<Course>) {}
 }
 
 
