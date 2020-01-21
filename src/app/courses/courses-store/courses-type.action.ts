@@ -1,3 +1,3 @@
-import * as CourseActions from './course.action';
+import { LoadAllCourses, AllCoursesLoaded, CourseUpdated } from './course.action';
 
-export { CourseActions };
+export type CoursesActions = LoadAllCourses | AllCoursesLoaded | CourseUpdated;

@@ -1,14 +1,8 @@
 <div class="course" *ngIf="(course$ | async) as course">
-
   <h2>{{course?.description}}</h2>
 
   <img class="course-thumbnail mat-elevation-z8" [src]="course?.iconUrl">
 
-  <div class="spinner-container" *ngIf="(loading$ | async )">
-
-    <mat-spinner></mat-spinner>
-
-  </div>
 
   <mat-table class="lessons-table mat-elevation-z8" [dataSource]="lessons$ | async">
 

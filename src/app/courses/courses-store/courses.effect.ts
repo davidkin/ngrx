@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect, Effect } from '@ngrx/effects';
 import { tap, concatMap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { CourseActions } from './courses-type.action';
+import { CoursesActions } from './courses-type.action';
 import { CoursesHttpService } from '../services/courses-http.service';
+import { ECoursesAction, LoadAllCourses, AllCoursesLoaded, CourseUpdated } from './course.action';
 
 @Injectable()
 export class CoursesEffects {
@@ -15,16 +16,16 @@ export class CoursesEffects {
     @Effect()
     loadCourses$ = this.actions$
         .pipe(
-            ofType(CourseActions.loadAllCourses),
-            concatMap(action => this.coursesService.findAllCourses()),
-            map(courses => CourseActions.allCoursesLoaded( { payload: courses } ))
+            ofType<LoadAllCourses>(ECoursesAction.loadAllCourses),
+            concatMap(() => this.coursesService.findAllCourses()),
+            map(courses => new AllCoursesLoaded(courses) )
         );
 
     @Effect({ dispatch: false })
     saveCourse$ = this.actions$.pipe(
-        ofType(CourseActions.courseUpdated),
+        ofType<CourseUpdated>(ECoursesAction.courseUpdated),
         concatMap(action =>
-            this.coursesService.saveCourse(action.payload.id, action.payload.changes)
+            this.coursesService.saveCourse(action.payload.id, action.payload)
         ), // work if only previouse action was finished
     );
 }

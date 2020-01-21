@@ -1,36 +1,81 @@
 import { Course, compareCourses } from '../../model/course';
 import { createReducer, on } from '@ngrx/store';
-import { CourseActions } from '../courses-type.action';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { CoursesActions } from '../courses-type.action';
+import { ECoursesAction } from '../course.action';
 
-export interface CoursesState extends EntityState<Course> {
+export interface CoursesState  {
     areCoursesLoaded: boolean;
+    courses: Course[];
 }
 
-export const adapter = createEntityAdapter<Course>({
-    sortComparer: compareCourses
-}); // make easy to handle entity format
+export const initialCourseState = {
+    areCoursesLoaded: false,
+    courses: undefined
+};
 
-export const initialCOurseState = adapter.getInitialState({
-    areCoursesLoaded: false
-});
+export const coursesReducer = (
+    state = initialCourseState,
+    action: CoursesActions
+): CoursesState => {
 
-export const coursesReducer = createReducer(
-    initialCOurseState,
-    on(
-        CourseActions.allCoursesLoaded,
-        (state, action) => adapter.addAll(
-            action.payload,
-            { ...state, areCoursesLoaded: true }
-        )
-    ),
+    switch (action.type) {
+        case ECoursesAction.allCoursesLoaded: {
+            return {
+                ...state,
+                areCoursesLoaded: true,
+                courses: action.payload
+            };
+        }
 
-    on(
-        CourseActions.courseUpdated,
-        (state, action) => adapter.updateOne(action.payload, state)
-    )
-);
+        case ECoursesAction.courseUpdated: {
+            return {
+                ...state,
+                courses: [
+                    ...state.courses,
+                    action.payload
+                ]
+            };
+        }
 
-const selectors = adapter.getSelectors();
+        default:
+            return state;
+    }
 
-export const { selectAll } = selectors;
+};
+
+// export interface CoursesState extends EntityState<Course> {
+//     areCoursesLoaded: boolean;
+// }
+// 
+// export const coursesReducer = (
+//     state = initialCourseState,
+//     action: CoursesActions
+// );
+// export const adapter = createEntityAdapter<Course>({
+//     sortComparer: compareCourses
+// }); // make easy to handle entity format
+
+// export const initialCourseState = adapter.getInitialState({
+//     areCoursesLoaded: false
+// });
+
+// export const coursesReducer = createReducer(
+//     initialCourseState,
+//     on(
+//         CourseActions.allCoursesLoaded,
+//         (state, action) => adapter.addAll(
+//             action.payload,
+//             { ...state, areCoursesLoaded: true }
+//         )
+//     ),
+
+//     on(
+//         CourseActions.courseUpdated,
+//         (state, action) => adapter.updateOne(action.payload, state)
+//     )
+// );
+
+// const selectors = adapter.getSelectors();
+
+// export const { selectAll } = selectors;

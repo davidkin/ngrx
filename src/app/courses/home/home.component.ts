@@ -37,11 +37,13 @@ export class HomeComponent implements OnInit {
 
   reload() {
     this.beginnerCourses$ = this.store.pipe(
-      select(selectBeginnerCourses)
+      select(selectBeginnerCourses),
+      map(courses => courses.sort((c1, c2) => c1.seqNo - c2.seqNo))
     );
 
     this.advancedCourses$ = this.store.pipe(
-      select(selectAdvancedCourses)
+      select(selectAdvancedCourses),
+      map(courses => courses.sort((c1, c2) => c1.seqNo - c2.seqNo))
     );
 
     this.promoTotal$ = this.store.pipe(

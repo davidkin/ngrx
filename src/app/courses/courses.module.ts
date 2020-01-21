@@ -29,7 +29,6 @@ import { EffectsModule } from '@ngrx/effects';
 import {CoursesEffects} from './courses-store/courses.effect';
 import { StoreModule } from '@ngrx/store';
 import { coursesReducer } from './courses-store/reducer';
-import {CourseEntityService} from './services/course-entity.service';
 
 export const coursesRoutes: Routes = [
   {
@@ -44,10 +43,6 @@ export const coursesRoutes: Routes = [
     component: CourseComponent
   }
 ];
-
-const entityMetadata: EntityMetadataMap = {
-  Course: {}
-};
 
 @NgModule({
   imports: [
@@ -86,15 +81,7 @@ const entityMetadata: EntityMetadataMap = {
   entryComponents: [EditCourseDialogComponent],
   providers: [
     CoursesHttpService,
-    CoursesResolver,
-    CourseEntityService
+    CoursesResolver
   ]
 })
-export class CoursesModule {
-
-  constructor(
-    private eds: EntityDefinitionService
-  ) {
-    eds.registerMetadataMap(entityMetadata);
-  }
-}
+export class CoursesModule {}
